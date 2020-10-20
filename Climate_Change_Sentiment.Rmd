@@ -40,8 +40,9 @@ library(knitr)
 get_sentiments('afinn')
 get_sentiments('bing')
 get_sentiments('nrc')
+```
 
-
+```{r, warning = FALSE, message=FALSE}
 nyt_afinn <- nyt %>%
   inner_join(get_sentiments("afinn"))
 
@@ -55,7 +56,6 @@ nyt_bing <- nyt %>%
 ```{r}
 table(nyt_bing$sentiment)
 table(nyt_nrc$sentiment)
-
 ```
 
 Looking first at our tabled results from the bing lexicon, we see overwhelming more negative sentiment surrounding climate change. Furthermore, diving deeper, looking at the nrc, we see words associated with sentiments and feelings such as anger, disgust, and even fear appearing frequently within these articles. This bolsters our original thoughts from the beginning of the lab; it appears that there is a sentiment of anxiousness and fear surrounding climate change. We can then further analyze these findings by looking at some graphical representations; this is where the afinn results will be helpful. 
@@ -94,10 +94,51 @@ We will perform the same process that we did for The New York Times publications
 ### Reading in the Text and Cleaning the Data 
 ```{r}
 fnn <- read_lines('Files (100) (1).txt')
+fnn <- tibble(fnn)
+
 fnn <- fnn %>%
   unnest_tokens(word, fnn)%>%
   anti_join(stop_words)%>% 
   count(word, sort=TRUE)
 ```
 
+### Analyzing the Sentiments
 
+With the data now in a usable format, we can then begin to look at our three types of sentiment analysis. 
+
+```{r, message = FALSE, warning = FALSE}
+fnn_afinn <- fnn %>%
+  inner_join(get_sentiments('afinn'))
+
+fnn_bing <- fnn %>%
+  inner_join(get_sentiments('bing'))
+
+fnn_nrc <- fnn %>%
+  inner_join(get_sentiments('nrc'))
+```
+
+```{r}
+table(fnn_bing$sentiment)
+table(fnn_nrc$sentiment)
+```
+
+### Graphing the Sentiments
+
+```{r}
+ggplot(data = fnn_afinn, 
+       aes(x=value)
+        )+
+  geom_histogram()+
+  ggtitle("Fox News Network Sentiment Ranges")+
+  theme_minimal()
+```
+### Creating a Word Cloud 
+
+```{r}
+set.seed(3)
+ggplot(fnn[1:50,], aes(label = word, size = n)
+       ) +
+  geom_text_wordcloud() +
+  theme_minimal()
+```
+When looking at the three sentiment analyses, we find some insightful findings, particularly from the word cloud. From the bing, nrc, and afinn analysis, we find that the results are comparable to that of The New York Times. It skews more towards negative sentiments, but only very slightly. When we look at the word cloud, however, we find something extremely interesting; the words surrounding climate change from the Fox News Network publications are noticeably more political and much less scientific. Unlike The New York Times which had heavy representation of scientific jargon and language, Fox News includes predominantly the names of political figures such as President Barrack Obama, Tucker Carlson, Laura Ingraham, President Donald Trump, Vice President Joe Biden, Nancy Pelosi, etc. One could argue that relative to The New York Times, Fox News Network speaks on the issue of climate change with much more politically charged implications and language, whereas The New York Times focuses predominantly on science and research. 
