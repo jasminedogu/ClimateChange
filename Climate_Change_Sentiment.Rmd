@@ -1,0 +1,103 @@
+---
+title: "Climate Change Text Sentiment Analysis"
+author: "Lindsey Norberg"
+date: "10/19/2020"
+output: html_document
+---
+
+```{r setup, warning = FALSE, message = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidytext)
+library(ggwordcloud)
+
+```
+# Analyzing Climate Change Sentiment: The New York Times
+
+To analyze sentiment on climate change, we begin with 100 different published articles from The New York Times. Before beginning, it is important to analyze the sentiment around The New York Times. Arguably, The New York Times is a reliable news source that tends to be more left leaning. Furthermore, the democratic party, more generally, tends to view climate change as a pertinent and concerning issue that needs to be addressed with urgency. Thus, we can hypothesize that we perhaps will see more negative sentiments surrounding the issue, and perhaps more specifically, ones of anger or even fear. It also should be noted that these publications span the years 2006 to present day. We will begin by preparing our text data for sentiment analysis. 
+
+### Reading in the Text and Cleaning the Data 
+
+Before beginning our sentiment analysis, we begin by reading in the text file and then performing some minimal data cleaning. We begin by reading in the raw text file; however, we then need to prepare it to be in a usable form. To do this, we unnest the text, meaning that we will separate the text into individual words. Then, we want to remove irrelvant or uninformative words like "a" or "the," also known as stop words. We then take a count of the frequency that we see each of the unnested words appear across all 100 publications. We now have usable data that is ready for sentiment analysis. 
+
+```{r}
+nyt <- read_lines('Files (100).txt')
+nyt <- tibble(nyt)
+nyt <- nyt %>%
+  unnest_tokens(word, nyt)%>%
+  anti_join(stop_words)%>% 
+  count(word, sort=TRUE)
+
+```
+
+### Analyzing the Sentiment 
+
+Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions. 
+
+```{r, echo = FALSE, include = FALSE}
+library(textdata)
+library(knitr)
+get_sentiments('afinn')
+get_sentiments('bing')
+get_sentiments('nrc')
+
+
+nyt_afinn <- nyt %>%
+  inner_join(get_sentiments("afinn"))
+
+nyt_nrc <- nyt %>%
+  inner_join(get_sentiments('nrc'))
+
+nyt_bing <- nyt %>%
+  inner_join(get_sentiments('bing'))
+```
+
+```{r}
+table(nyt_bing$sentiment)
+table(nyt_nrc$sentiment)
+
+```
+
+Looking first at our tabled results from the bing lexicon, we see overwhelming more negative sentiment surrounding climate change. Furthermore, diving deeper, looking at the nrc, we see words associated with sentiments and feelings such as anger, disgust, and even fear appearing frequently within these articles. This bolsters our original thoughts from the beginning of the lab; it appears that there is a sentiment of anxiousness and fear surrounding climate change. We can then further analyze these findings by looking at some graphical representations; this is where the afinn results will be helpful. 
+
+### Graphing the Sentiments 
+
+We can graphically and numerically analyze the sentiments looking at a distribution of the afinn sentiment results. 
+
+```{r}
+ggplot(data = nyt_afinn, 
+       aes(x=value)
+        )+
+  geom_histogram()+
+  ggtitle("New York Times Sentiment Ranges")+
+  theme_minimal()
+```
+
+From this, we see that the value skews lightly to the left, meaning there is more negative sentiment surrounding climate change. This supports and bolsters our findings from the bing and nrc tabled results. Although not necessary, we can also create a word cloud to take a look at which words exactly we see frequently being represented in these publications. This may not be as helpful since words such as climate and change are likely going to be the most represented; this does not help us as much, but could potentially be insightful for other words represented. 
+
+### Creating a Word Cloud 
+```{r}
+set.seed(3)
+ggplot(nyt[1:50,], aes(label = word, size = n)
+       ) +
+  geom_text_wordcloud() +
+  theme_minimal()
+
+```
+
+Sure enough, we see that the words climate and change are displayed as the largest, and thus more frequently represented words, in the sample of publications. We also see words such as emissions, carbon, scientists, and dioxide that likely are in reference to what exactly is driving global warming. We also see the word "trump" and "2020" represented in the word cloud, exhibiting how especially in the most recent election(s), climate change has become increasingly a political topic of interest. While the democratic party has championed passing legislation that will help to mitigate the rapid growth of climate change, the republican party, especially Trump, has voiced their overt disbelief in its very existence. Since The New York Times is a slightly more left leaning media outlet, it may be advantageous to observe a more right leaning outlet to compare the surrounding sentiments. Thus, to do this, we will next analyzing publications from Fox News Network. 
+
+# Analyzing Climate Change Sentiment: Fox News Network
+
+We will perform the same process that we did for The New York Times publications. 
+
+### Reading in the Text and Cleaning the Data 
+```{r}
+fnn <- read_lines('Files (100) (1).txt')
+fnn <- fnn %>%
+  unnest_tokens(word, fnn)%>%
+  anti_join(stop_words)%>% 
+  count(word, sort=TRUE)
+```
+
+
