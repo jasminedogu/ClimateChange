@@ -31,7 +31,7 @@ get_sentiments('nrc')
 
 
 ## Reading in the Text and Cleaning the Data 
-Before beginning our sentiment analysis, we begin by reading in the text file and then performing some minimal data cleaning. We begin by reading in the raw text file; however, we then need to prepare it to be in a usable form. To do this, we unnest the text, meaning that we will separate the text into individual words. Then, we want to remove irrelvant or uninformative words like "a" or "the," also known as stop words. We then take a count of the frequency that we see each of the unnested words appear across all 100 publications. We now have usable data that is ready for sentiment analysis. 
+Before beginning our sentiment analysis, we begin by reading in the text file and then performing some minimal data cleaning. We begin by reading in the raw text file; however, we then need to prepare it to be in a usable form. To do this, we unnest the text, meaning that we will separate the text into individual words. Then, we want to remove irrelevant or uninformative words like "a" or "the," also known as stop words. We then take a count of the frequency that we see each of the unnested words appear across all 100 publications. We now have usable data that is ready for sentiment analysis. 
 ```{r}
 #Reading in the txt files
 filename1 <- "usaToday.txt"
@@ -77,6 +77,7 @@ ggplot(
 usa_freq<- frequency_of_words(usaToday)
 quick_plot(usa_freq)
 ```
+We can see in the plot for USA Today that both "climate" and "change" were the most used words, registering more than 1050 and 750 words, respectively. Following them were the numbers "78" and "90". We can infer that these could have been talking about temperatures or certain thresholds of global warming.
 
 ### NYT ggplot of Frequency of Words
 ```{r}
@@ -84,6 +85,7 @@ quick_plot(usa_freq)
 nyt_freq<- frequency_of_words(nyt)
 quick_plot(nyt_freq)
 ```
+We can see in the plot for the New York Times that "people", "president", and "trump" were the most used words. "People" was registered more than 3000 times, while "president" and "trump" were registered more than 2500 and 2000 times, respectively. As the words "president" and "trump" were both used a huge amount of times, we could infer that these two words could have been used together often in articles. The words indicated in the plot also seem to be more political than in the USA Today articles, as many of them are names of politicians.
 
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
@@ -127,7 +129,7 @@ usa_affin<- publication_afinn(usa_freq)
 ```{r, include=FALSE}
 #New York Time Sentiments
 table(publication_afinn(nyt_freq))
-nyt_affin<- publication_afinn(usa_freq)
+nyt_affin<- publication_afinn(nyt_freq)
 publication_nrc(nyt_freq)
 publication_bing(nyt_freq)
 ```
@@ -175,7 +177,7 @@ ggplot(publication[1:50,], aes(label = word, size = n)
 #Wordcloud for USA Today
 ggplot_wordcloud(usa_freq)
 ```
-[text needs to go here explaining the wordcloud]
+As seen in the wordcloud, "climate" and "change" were the most used words, and were very similar in size - as they are typically used together. Other words that were used often were "global" and "warming" (also typically used together and of similar size on the wordcloud), "energy", "emissions", "usa", and a variety of different numbers.
 
 ```{r}
 #Wordcloud for NYT
