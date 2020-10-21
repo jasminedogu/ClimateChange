@@ -32,14 +32,17 @@ get_sentiments('nrc')
 
 ## Reading in the Text and Cleaning the Data 
 Before beginning our sentiment analysis, we begin by reading in the text file and then performing some minimal data cleaning. We begin by reading in the raw text file; however, we then need to prepare it to be in a usable form. To do this, we unnest the text, meaning that we will separate the text into individual words. Then, we want to remove irrelevant or uninformative words like "a" or "the," also known as stop words. We then take a count of the frequency that we see each of the unnested words appear across all 100 publications. We now have usable data that is ready for sentiment analysis. 
-```{r}
+```{r, include=FALSE}
 #Reading in the txt files
 filename1 <- "usaToday.txt"
 filename2 <- "nyt.txt"
+filename3 <- "foxnews.txt"
 usaToday<- readChar("usaToday.txt", file.info(filename1)$size)
 usaToday<- tibble(text= usaToday, stringsAsFactors=FALSE)
 nyt<- readChar("nyt.txt", file.info(filename2)$size)
 nyt<- tibble(text= nyt, stringsAsFactors=FALSE)
+fox<- readChar("foxnews.txt", file.info(filename3)$size)
+fox<- tibble(text= fox, stringsAsFactors=FALSE)
 ```
 
 
@@ -71,7 +74,7 @@ ggplot(
 
 ```
 
-### Usa Today ggplot of Frequency of Words
+### USA Today ggplot of Frequency of Words
 ```{r}
 #USA Today ggplot of frequency of words
 usa_freq<- frequency_of_words(usaToday)
@@ -86,6 +89,14 @@ nyt_freq<- frequency_of_words(nyt)
 quick_plot(nyt_freq)
 ```
 We can see in the plot for the New York Times that "people", "president", and "trump" were the most used words. "People" was registered more than 3000 times, while "president" and "trump" were registered more than 2500 and 2000 times, respectively. As the words "president" and "trump" were both used a huge amount of times, we could infer that these two words could have been used together often in articles. The words indicated in the plot also seem to be more political than in the USA Today articles, as many of them are names of politicians.
+
+### Fox News ggplot of Frequency of Words
+```{r}
+#USA Today ggplot of frequency of words
+fox_freq<- frequency_of_words(fox)
+quick_plot(fox_freq)
+```
+[text goes here ]
 
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
@@ -105,7 +116,6 @@ publication_nrc <- function(article){
   article %>%
   inner_join(get_sentiments('nrc'))
 }
-
 publication_bing <- function(article){
   article%>%
   inner_join(get_sentiments('bing'))
@@ -114,7 +124,7 @@ publication_bing <- function(article){
 
 
 ```{r , include=FALSE}
-#Usa Today Sentiments
+#USA Today Sentiments
 table(publication_afinn(usa_freq))
 publication_nrc(usa_freq)
 publication_bing(usa_freq)
@@ -133,12 +143,30 @@ nyt_affin<- publication_afinn(nyt_freq)
 publication_nrc(nyt_freq)
 publication_bing(nyt_freq)
 ```
+
+```{r}
+nyt_affin<- publication_afinn(nyt_freq)
+nyt_affin
+```
 Looking first at our tabled results from the bing lexicon, we see overwhelming more negative sentiment surrounding climate change. Furthermore, diving deeper, looking at the nrc, we see words associated with sentiments and feelings such as anger, disgust, and even fear appearing frequently within these articles. This bolsters our original thoughts from the beginning of the lab; it appears that there is a sentiment of anxiousness and fear surrounding climate change. We can then further analyze these findings by looking at some graphical representations; this is where the afinn results will be helpful. 
+
+```{r , include=FALSE}
+#Fox News Today Sentiments
+table(publication_afinn(fox_freq))
+publication_nrc(fox_freq)
+publication_bing(fox_freq)
+```
+
+## Fox News Sentiment Table
+```{r}
+fox_affin<- publication_afinn(fox_freq)
+```
+[text needs to go here about the tabled results]
 
 ## Graphing the Sentiments 
 
 We can graphically and numerically analyze the sentiments looking at a distribution of the afinn sentiment results. 
-```{r}
+```{r, include= FALSE}
 #Function for creating ggplot for sentiments
 ggplot_sentiment <- function(sentiment){
 ggplot(data = sentiment, 
@@ -151,14 +179,22 @@ ggplot(data = sentiment,
 ```
 
 ```{r}
+#USA Sentiment ggplot
 ggplot_sentiment(usa_affin)
 ```
 [text needs to go here explaining the ggplot]
 
 ```{r}
+#NYT Sentiment ggplot
 ggplot_sentiment(nyt_affin)
 ```
 From this, we see that the value skews lightly to the left, meaning there is more negative sentiment surrounding climate change. This supports and bolsters our findings from the bing and nrc tabled results. Although not necessary, we can also create a word cloud to take a look at which words exactly we see frequently being represented in these publications. This may not be as helpful since words such as climate and change are likely going to be the most represented; this does not help us as much, but could potentially be insightful for other words represented. 
+
+```{r}
+#Fox News Sentiment ggplot
+ggplot_sentiment(fox_affin)
+```
+[text needs to go here]
 
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
@@ -186,8 +222,8 @@ ggplot_wordcloud(nyt_freq)
 Sure enough, we see that the words climate and change are displayed as the largest, and thus more frequently represented words, in the sample of publications. We also see words such as emissions, carbon, scientists, and dioxide that likely are in reference to what exactly is driving global warming. We also see the word "trump" and "2020" represented in the word cloud, exhibiting how especially in the most recent election(s), climate change has become increasingly a political topic of interest. While the democratic party has championed passing legislation that will help to mitigate the rapid growth of climate change, the republican party, especially Trump, has voiced their overt disbelief in its very existence. Since The New York Times is a slightly more left leaning media outlet, it may be advantageous to observe a more right leaning outlet to compare the surrounding sentiments. Thus, to do this, we will next analyzing publications from Fox News Network. 
 
 
-
-
-
-FOXNEWS 
+```{r}
+#Wordcloud for Fox News
+ggplot_wordcloud(fox_freq)
+```
 When looking at the three sentiment analyses, we find some insightful findings, particularly from the word cloud. From the bing, nrc, and afinn analysis, we find that the results are comparable to that of The New York Times. It skews more towards negative sentiments, but only very slightly. When we look at the word cloud, however, we find something extremely interesting; the words surrounding climate change from the Fox News Network publications are noticeably more political and much less scientific. Unlike The New York Times which had heavy representation of scientific jargon and language, Fox News includes predominantly the names of political figures such as President Barrack Obama, Tucker Carlson, Laura Ingraham, President Donald Trump, Vice President Joe Biden, Nancy Pelosi, etc. It even has the word "democrat" represented, while the word "republican" is not. This likely is due to the fact that as a right leaning media outlet, Fox News Network is skeptical and critical of the democratic party's concerns about climate change. One could argue that relative to The New York Times, Fox News Network speaks on the issue of climate change with much more politically charged implications and language, whereas The New York Times focuses predominantly on science and research. 
