@@ -21,7 +21,7 @@ To analyze sentiment on climate change, we begin with 100 different published ar
 Before beginning our sentiment analysis, we begin by reading in the text file and then performing some minimal data cleaning. We begin by reading in the raw text file; however, we then need to prepare it to be in a usable form. To do this, we unnest the text, meaning that we will separate the text into individual words. Then, we want to remove irrelvant or uninformative words like "a" or "the," also known as stop words. We then take a count of the frequency that we see each of the unnested words appear across all 100 publications. We now have usable data that is ready for sentiment analysis. 
 
 ```{r}
-nyt <- read_lines('Files (100).txt')
+nyt <- read_lines('nyt.txt')
 nyt <- tibble(nyt)
 nyt <- nyt %>%
   unnest_tokens(word, nyt)%>%
@@ -76,6 +76,7 @@ ggplot(data = nyt_afinn,
 From this, we see that the value skews lightly to the left, meaning there is more negative sentiment surrounding climate change. This supports and bolsters our findings from the bing and nrc tabled results. Although not necessary, we can also create a word cloud to take a look at which words exactly we see frequently being represented in these publications. This may not be as helpful since words such as climate and change are likely going to be the most represented; this does not help us as much, but could potentially be insightful for other words represented. 
 
 ### Creating a Word Cloud 
+
 ```{r}
 set.seed(3)
 ggplot(nyt[1:50,], aes(label = word, size = n)
