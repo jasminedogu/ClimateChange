@@ -130,11 +130,12 @@ publication_nrc(usa_freq)
 publication_bing(usa_freq)
 ```
 
-## Usa Today ggplot of Frequency of Words
+## Usa Today Table of Sentiment
 ```{r}
 usa_affin<- publication_afinn(usa_freq)
+usa_affin
 ```
-[text needs to go here about the tabled results]
+The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted. 
 
 ```{r, include=FALSE}
 #New York Time Sentiments
@@ -182,7 +183,7 @@ ggplot(data = sentiment,
 #USA Sentiment ggplot
 ggplot_sentiment(usa_affin)
 ```
-[text needs to go here explaining the ggplot]
+From the sentiment ranges graph, we can see that there is notably more negative sentiment regarding climate change. In order to more closely examine this sentiment, we created a word cloud to discover which words were showing up the most often.
 
 ```{r}
 #NYT Sentiment ggplot
