@@ -118,7 +118,7 @@ We can see in the plot that "climate" and "change" were yet again the most used 
 guard_freq<- frequency_of_words(guardian)
 quick_plot(guard_freq)
 ```
-[need text here]
+Disregarding "climate" and "change", "time", "block", and "people" were the most frequently used words for The Guardian - clocking nearly 3000, 2000, and 1500 words respectively. In addition, there were many scientific words - as well as many geographical words. These included "australia", "paris", "south", and "london". These words could be referring to places, the Paris Climate Agreement, or countries/cities that are important to stopping climate change.
 
 
 ## Analyzing the Sentiment 
@@ -214,6 +214,8 @@ publication_bing(guard_freq)
 guard_affin<- publication_afinn(guard_freq)
 guard_affin
 ```
+The table shown indicates a major negative sentiment in The Guardian. Most importantly, the word "block" was used 1448 times with a negative sentiment. This could be in regards to climate change legislation that didn't get written into law. Other words, like "strike", "crisis", "fire", and "emergency added to this negative sentiment.
+
 ## Graphing the Sentiments 
 
 We can graphically and numerically analyze the sentiments looking at a distribution of the afinn sentiment results. 
@@ -257,7 +259,7 @@ The Australian has a sentiment graph that seems to be much more balanced between
 #The Guardian ggplot
 ggplot_sentiment(guard_affin)
 ```
-[need text here]
+The sentiment graph clearly shows another negative sentiment towards climate change among publications. Slight positive, as well as slight negative, sentiments were the most occurring within the publication - indication yet another more balanced sentiment when compared to US publications.
 
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
