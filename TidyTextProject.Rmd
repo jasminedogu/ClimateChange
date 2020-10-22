@@ -37,12 +37,15 @@ Before beginning our sentiment analysis, we begin by reading in the text file an
 filename1 <- "usaToday.txt"
 filename2 <- "nyt.txt"
 filename3 <- "foxnews.txt"
+filename4 <- "australian.txt"
 usaToday<- readChar("usaToday.txt", file.info(filename1)$size)
 usaToday<- tibble(text= usaToday, stringsAsFactors=FALSE)
 nyt<- readChar("nyt.txt", file.info(filename2)$size)
 nyt<- tibble(text= nyt, stringsAsFactors=FALSE)
 fox<- readChar("foxnews.txt", file.info(filename3)$size)
 fox<- tibble(text= fox, stringsAsFactors=FALSE)
+australian<- readChar("australian.txt", file.info(filename4)$size)
+australian<- tibble(text= australian, stringsAsFactors=FALSE)
 ```
 
 
@@ -98,6 +101,14 @@ quick_plot(fox_freq)
 ```
 [text goes here ]
 
+### The Australian ggplot of Frequency of Words
+```{r}
+#USA Today ggplot of frequency of words
+aus_freq<- frequency_of_words(australian)
+quick_plot(aus_freq)
+```
+[need text here]
+
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
 <br>
@@ -122,7 +133,7 @@ publication_bing <- function(article){
 }
 ```
 
-
+## Usa Today Sentiment Table
 ```{r , include=FALSE}
 #USA Today Sentiments
 table(publication_afinn(usa_freq))
@@ -130,13 +141,12 @@ publication_nrc(usa_freq)
 publication_bing(usa_freq)
 ```
 
-## Usa Today Table of Sentiment
 ```{r}
 usa_affin<- publication_afinn(usa_freq)
 usa_affin
 ```
 The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted. 
-
+## NYT Sentiments Table
 ```{r, include=FALSE}
 #New York Time Sentiments
 table(publication_afinn(nyt_freq))
@@ -151,6 +161,7 @@ nyt_affin
 ```
 Looking first at our tabled results from the bing lexicon, we see overwhelming more negative sentiment surrounding climate change. Furthermore, diving deeper, looking at the nrc, we see words associated with sentiments and feelings such as anger, disgust, and even fear appearing frequently within these articles. This bolsters our original thoughts from the beginning of the lab; it appears that there is a sentiment of anxiousness and fear surrounding climate change. We can then further analyze these findings by looking at some graphical representations; this is where the afinn results will be helpful. 
 
+## Fox News Sentiment Table
 ```{r , include=FALSE}
 #Fox News Today Sentiments
 table(publication_afinn(fox_freq))
@@ -158,11 +169,25 @@ publication_nrc(fox_freq)
 publication_bing(fox_freq)
 ```
 
-## Fox News Sentiment Table
 ```{r}
 fox_affin<- publication_afinn(fox_freq)
 ```
 [text needs to go here about the tabled results]
+
+## The Australian Sentiment Table
+```{r , include=FALSE}
+#The Australian Sentiments
+table(publication_afinn(aus_freq))
+publication_nrc(aus_freq)
+publication_bing(aus_freq)
+```
+
+```{r}
+aus_affin<- publication_afinn(aus_freq)
+aus_affin
+```
+[text needs to go here]
+
 
 ## Graphing the Sentiments 
 
@@ -197,6 +222,11 @@ ggplot_sentiment(fox_affin)
 ```
 [text needs to go here]
 
+```{r}
+#The Australian ggplot
+ggplot_sentiment(aus_affin)
+```
+
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
 ```{r}
@@ -222,9 +252,14 @@ ggplot_wordcloud(nyt_freq)
 ```
 Sure enough, we see that the words climate and change are displayed as the largest, and thus more frequently represented words, in the sample of publications. We also see words such as emissions, carbon, scientists, and dioxide that likely are in reference to what exactly is driving global warming. We also see the word "trump" and "2020" represented in the word cloud, exhibiting how especially in the most recent election(s), climate change has become increasingly a political topic of interest. While the democratic party has championed passing legislation that will help to mitigate the rapid growth of climate change, the republican party, especially Trump, has voiced their overt disbelief in its very existence. Since The New York Times is a slightly more left leaning media outlet, it may be advantageous to observe a more right leaning outlet to compare the surrounding sentiments. Thus, to do this, we will next analyzing publications from Fox News Network. 
 
-
 ```{r}
 #Wordcloud for Fox News
 ggplot_wordcloud(fox_freq)
 ```
 When looking at the three sentiment analyses, we find some insightful findings, particularly from the word cloud. From the bing, nrc, and afinn analysis, we find that the results are comparable to that of The New York Times. It skews more towards negative sentiments, but only very slightly. When we look at the word cloud, however, we find something extremely interesting; the words surrounding climate change from the Fox News Network publications are noticeably more political and much less scientific. Unlike The New York Times which had heavy representation of scientific jargon and language, Fox News includes predominantly the names of political figures such as President Barrack Obama, Tucker Carlson, Laura Ingraham, President Donald Trump, Vice President Joe Biden, Nancy Pelosi, etc. It even has the word "democrat" represented, while the word "republican" is not. This likely is due to the fact that as a right leaning media outlet, Fox News Network is skeptical and critical of the democratic party's concerns about climate change. One could argue that relative to The New York Times, Fox News Network speaks on the issue of climate change with much more politically charged implications and language, whereas The New York Times focuses predominantly on science and research. 
+
+```{r}
+#Wordcloud for The Australian
+ggplot_wordcloud(aus_freq)
+```
+
