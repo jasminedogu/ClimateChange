@@ -103,11 +103,11 @@ We can see in the plot for Fox News that "climate" and "change" were the most fr
 
 ### The Australian ggplot of Frequency of Words
 ```{r}
-#USA Today ggplot of frequency of words
+# The Australian ggplot of frequency of words
 aus_freq<- frequency_of_words(australian)
 quick_plot(aus_freq)
 ```
-[need text here]
+We can see in the plot that "climate" and "change" were yet again the most used words, as noted for the same reason as the previous publications. Following that, we see "australian", "global", and "emissions", all with more or less 250 words. Other words along the graph seem to be both about environmental policy and business, so the sentiments regarding these will be interesting to see as we continue our analysis.
 
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
@@ -145,7 +145,8 @@ publication_bing(usa_freq)
 usa_affin<- publication_afinn(usa_freq)
 usa_affin
 ```
-The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted. 
+The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted.
+
 ## NYT Sentiments Table
 ```{r, include=FALSE}
 #New York Time Sentiments
@@ -187,7 +188,7 @@ publication_bing(aus_freq)
 aus_affin<- publication_afinn(aus_freq)
 aus_affin
 ```
-[text needs to go here]
+The table created indicates a slight favoring of negative sentiment in The Australian regarding climate change. Each of the top three ("risk", "limited, and "risks") registered negative sentiment - immediately indicating the tone of the publication.
 
 
 ## Graphing the Sentiments 
@@ -227,6 +228,7 @@ Once again, we can see in the sentiment graph that there is an uneven distributi
 #The Australian ggplot
 ggplot_sentiment(aus_affin)
 ```
+The Australian has a sentiment graph that seems to be much more balanced between negative and positive sentiment. Although there is still more negative, the range is much closer than the US publications we have examined. This could be noting that Australia has a better plan to tackle climate change, therefore they are less worried, than the United States.
 
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
@@ -263,4 +265,4 @@ When looking at the three sentiment analyses, we find some insightful findings, 
 #Wordcloud for The Australian
 ggplot_wordcloud(aus_freq)
 ```
-
+In the word cloud, "climate" and "change" clearly overshadow the other words, as expected. However, many words related to policy and legislation can be seen - such as "research", "document", "government" and "report". This denotes that articles in The Australia may be more legality based when compared to US publications regarding politics and science.
