@@ -129,7 +129,7 @@ Disregarding "climate" and "change", "time", "block", and "people" were the most
 global_freq<- frequency_of_words(global)
 quick_plot(global_freq)
 ```
-[need text here]
+"Climate" and "change" were yet again the most used words for this publication, like the others. However, The Global and Mail had a few different words that occurred the most - "canada", "global", and "carbon". As it is a Canadian publication, it makes sense that Canada was mentioned often. Many other scietific terms were mentioned most often - including: "carbon", "warming", "emissions", "water", and "energy".
 
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
@@ -239,7 +239,7 @@ publication_bing(global_freq)
 global_affin<- publication_afinn(global_freq)
 global_affin
 ```
-[need text here]
+The words in the table for The Global and Mail seem to be fairly equal in sentiment. "Risk" and "United" were terms used frequently with both positive and negative sentiments. In addition, as the list is examined, words like "natural", "crisis", "threat", and "increased" show alternating sentiments for the publication.
 
 ## Graphing the Sentiments 
 We can graphically and numerically analyze the sentiments looking at a distribution of the afinn sentiment results. 
@@ -295,7 +295,7 @@ The sentiment graph clearly shows another negative sentiment towards climate cha
 #The Global and Mail ggplot
 ggplot_sentiment(global_affin)
 ```
-[need text here]
+Upon further examination of The Global and Mail, negative sentiment towards climate change overwhelms the positive sentiment of climate change at nearly every level. This indicates a worrisome attitude towards climate change from Canada. Eh?
 
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
@@ -350,7 +350,7 @@ ggplot_wordcloud(guard_freq)
 #Wordcloud for The Global and Mail
 ggplot_wordcloud(global_freq)
 ```
-[need text here]
+We can see, via the word cloud for The Global and Mail, that "climate" and "change" were mentioned a huge amount of times. Other notable terms - like "global", "warming", "carbon", "energy", "scientists", and "water" - indicate a more scientific and factual approach to climate change by the publication.
 
 ## Final Thoughts 
 [need text here]
