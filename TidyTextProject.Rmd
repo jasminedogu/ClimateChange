@@ -93,10 +93,10 @@ We can see in the plot for the New York Times that "people", "president", and "t
 ### Fox News ggplot of Frequency of Words
 ```{r}
 #USA Today ggplot of frequency of words
-fox_freq<- frequency_of_words(fox)
+fox_freq <- frequency_of_words(fox)
 quick_plot(fox_freq)
 ```
-[text goes here ]
+We can see in the plot for Fox News that "climate" and "change" were the most frequent words, with over 2500 words and over 1500 words, respectively. We can infer, again, that these words are typically used together, which is why they are similar in word counts. Following those words, "times", "york", "global", "carbon", and "warming" also saw high frequency.
 
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
@@ -161,8 +161,9 @@ publication_bing(fox_freq)
 ## Fox News Sentiment Table
 ```{r}
 fox_affin<- publication_afinn(fox_freq)
+fox_affin
 ```
-[text needs to go here about the tabled results]
+The table shows sentiment values regarding words in articles from Fox News. There is clearly an imbalance towards negative sentiment, as the words with negative sentiment saw high negative values. Positive sentiment words in the table include "united", "natural", "matter", "top", and "increase". Negative sentiment words in the table include "fire", "risk(s)", "crisis", and "threat".
 
 ## Graphing the Sentiments 
 
@@ -195,7 +196,7 @@ From this, we see that the value skews lightly to the left, meaning there is mor
 #Fox News Sentiment ggplot
 ggplot_sentiment(fox_affin)
 ```
-[text needs to go here]
+Once again, we can see in the sentiment graph that there is an uneven distribution between negative and positive sentiment. The negative sentiment is nearly double the value of positive sentiment, indicating that the tone of these climate change articles in Fox News isn't hopeful.
 
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
