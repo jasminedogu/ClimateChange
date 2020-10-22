@@ -106,11 +106,11 @@ We can see in the plot for Fox News that "climate" and "change" were the most fr
 
 ### The Australian ggplot of Frequency of Words
 ```{r}
-#USA Today ggplot of frequency of words
+# The Australian ggplot of frequency of words
 aus_freq<- frequency_of_words(australian)
 quick_plot(aus_freq)
 ```
-[need text here]
+We can see in the plot that "climate" and "change" were yet again the most used words, as noted for the same reason as the previous publications. Following that, we see "australian", "global", and "emissions", all with more or less 250 words. Other words along the graph seem to be both about environmental policy and business, so the sentiments regarding these will be interesting to see as we continue our analysis.
 
 ### The Guardian ggplot of Frequency of Words
 ```{r}
@@ -157,7 +157,8 @@ publication_bing(usa_freq)
 usa_affin<- publication_afinn(usa_freq)
 usa_affin
 ```
-The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted. 
+The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted.
+
 ## NYT Sentiments Table
 ```{r, include=FALSE}
 #New York Time Sentiments
@@ -199,7 +200,7 @@ publication_bing(aus_freq)
 aus_affin<- publication_afinn(aus_freq)
 aus_affin
 ```
-[text needs to go here]
+The table created indicates a slight favoring of negative sentiment in The Australian regarding climate change. Each of the top three ("risk", "limited, and "risks") registered negative sentiment - immediately indicating the tone of the publication.
 
 ## The Guardian Sentiment Table
 ```{r, include=FALSE}
@@ -250,6 +251,7 @@ Once again, we can see in the sentiment graph that there is an uneven distributi
 #The Australian ggplot
 ggplot_sentiment(aus_affin)
 ```
+The Australian has a sentiment graph that seems to be much more balanced between negative and positive sentiment. Although there is still more negative, the range is much closer than the US publications we have examined. This could be noting that Australia has a better plan to tackle climate change, therefore they are less worried, than the United States.
 
 ```{r}
 #The Guardian ggplot
@@ -292,9 +294,13 @@ When looking at the three sentiment analyses, we find some insightful findings, 
 #Wordcloud for The Australian
 ggplot_wordcloud(aus_freq)
 ```
+<<<<<<< HEAD
 
 
 ```{r}
 #Wordcloud for The Guardian
 ggplot_wordcloud(guard_freq)
 ```
+=======
+In the word cloud, "climate" and "change" clearly overshadow the other words, as expected. However, many words related to policy and legislation can be seen - such as "research", "document", "government" and "report". This denotes that articles in The Australia may be more legality based when compared to US publications regarding politics and science.
+>>>>>>> 836248e6e728103194630a00d2a02280456fce80
