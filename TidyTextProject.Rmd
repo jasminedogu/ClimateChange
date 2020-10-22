@@ -38,6 +38,7 @@ filename1 <- "usaToday.txt"
 filename2 <- "nyt.txt"
 filename3 <- "foxnews.txt"
 filename4 <- "australian.txt"
+filename5 <- "guardian.txt"
 usaToday<- readChar("usaToday.txt", file.info(filename1)$size)
 usaToday<- tibble(text= usaToday, stringsAsFactors=FALSE)
 nyt<- readChar("nyt.txt", file.info(filename2)$size)
@@ -46,6 +47,8 @@ fox<- readChar("foxnews.txt", file.info(filename3)$size)
 fox<- tibble(text= fox, stringsAsFactors=FALSE)
 australian<- readChar("australian.txt", file.info(filename4)$size)
 australian<- tibble(text= australian, stringsAsFactors=FALSE)
+guardian<- readChar("guardian.txt", file.info(filename5)$size)
+guardian<- tibble(text= guardian, stringsAsFactors=FALSE)
 ```
 
 
@@ -108,6 +111,15 @@ aus_freq<- frequency_of_words(australian)
 quick_plot(aus_freq)
 ```
 [need text here]
+
+### The Guardian ggplot of Frequency of Words
+```{r}
+#The Guardian ggplot of frequency of words
+guard_freq<- frequency_of_words(guardian)
+quick_plot(guard_freq)
+```
+[need text here]
+
 
 ## Analyzing the Sentiment 
 Now that we have prepared the data for use, we can begin our sentiment analysis. For the purposes of our analysis, we will be using the afinn, bing, and nrc lexicon from the text data package. From here, we can perform an inner join on the data set and the three different lexicons to get varying information on the sentiments. The afinn lexicon provides a numerical representation of the sentiment, where the sign represents intuitively a positive or negative sentiment, and the magnitude represents the strength of the sentiment. Bing provides a binary classification: the word is either positive or negative. Lastly, nrc provides more specific sentiments that surround a word; this will likely be the most informative and where we can extract the most meaningful conclusions.
@@ -189,7 +201,18 @@ aus_affin
 ```
 [text needs to go here]
 
+## The Guardian Sentiment Table
+```{r, include=FALSE}
+#The Guardian Sentiments
+table(publication_afinn(guard_freq))
+publication_nrc(guard_freq)
+publication_bing(guard_freq)
+```
 
+```{r}
+guard_affin<- publication_afinn(guard_freq)
+guard_affin
+```
 ## Graphing the Sentiments 
 
 We can graphically and numerically analyze the sentiments looking at a distribution of the afinn sentiment results. 
@@ -228,6 +251,12 @@ Once again, we can see in the sentiment graph that there is an uneven distributi
 ggplot_sentiment(aus_affin)
 ```
 
+```{r}
+#The Guardian ggplot
+ggplot_sentiment(guard_affin)
+```
+[need text here]
+
 ## Creating a Word Cloud 
 In order to analyze the words in our publication, we can create a wordcloud.
 ```{r}
@@ -264,3 +293,8 @@ When looking at the three sentiment analyses, we find some insightful findings, 
 ggplot_wordcloud(aus_freq)
 ```
 
+
+```{r}
+#Wordcloud for The Guardian
+ggplot_wordcloud(guard_freq)
+```
