@@ -155,7 +155,7 @@ publication_bing <- function(article){
 }
 ```
 
-## Usa Today Sentiment Table
+### Usa Today Sentiment Table
 ```{r , include=FALSE}
 #USA Today Sentiments
 table(publication_afinn(usa_freq))
@@ -169,7 +169,7 @@ usa_affin
 ```
 The tabled list includes the words and their counts, as well as their sentiment values that will be put into a ggplot graph later. The most used words were "united", "natural", "severe", "increase(d)", and "risk". These words represent negative and positive sentiment pretty evenly, however, as we move along the table, more negative sentiment is noted.
 
-## NYT Sentiments Table
+### NYT Sentiments Table
 ```{r, include=FALSE}
 #New York Time Sentiments
 table(publication_afinn(nyt_freq))
@@ -184,7 +184,7 @@ nyt_affin
 ```
 Looking first at our tabled results from the bing lexicon, we see overwhelming more negative sentiment surrounding climate change. Furthermore, diving deeper, looking at the nrc, we see words associated with sentiments and feelings such as anger, disgust, and even fear appearing frequently within these articles. This bolsters our original thoughts from the beginning of the lab; it appears that there is a sentiment of anxiousness and fear surrounding climate change. We can then further analyze these findings by looking at some graphical representations; this is where the afinn results will be helpful. 
 
-## Fox News Sentiment Table
+### Fox News Sentiment Table
 ```{r , include=FALSE}
 #Fox News Today Sentiments
 table(publication_afinn(fox_freq))
@@ -198,7 +198,7 @@ fox_affin
 ```
 The table shows sentiment values regarding words in articles from Fox News. There is clearly an imbalance towards negative sentiment, as the words with negative sentiment saw high negative values. Positive sentiment words in the table include "united", "natural", "matter", "top", and "increase". Negative sentiment words in the table include "fire", "risk(s)", "crisis", and "threat".
 
-## The Australian Sentiment Table
+### The Australian Sentiment Table
 ```{r , include=FALSE}
 #The Australian Sentiments
 table(publication_afinn(aus_freq))
@@ -212,7 +212,7 @@ aus_affin
 ```
 The table created indicates a slight favoring of negative sentiment in The Australian regarding climate change. Each of the top three ("risk", "limited, and "risks") registered negative sentiment - immediately indicating the tone of the publication.
 
-## The Guardian Sentiment Table
+### The Guardian Sentiment Table
 ```{r, include=FALSE}
 #The Guardian Sentiments
 table(publication_afinn(guard_freq))
@@ -224,11 +224,10 @@ publication_bing(guard_freq)
 guard_affin<- publication_afinn(guard_freq)
 guard_affin
 ```
-<<<<<<< HEAD
 The table shown indicates a major negative sentiment in The Guardian. Most importantly, the word "block" was used 1448 times with a negative sentiment. This could be in regards to climate change legislation that didn't get written into law. Other words, like "strike", "crisis", "fire", and "emergency added to this negative sentiment.
-=======
 
-## The Global and Mail Sentiment Table
+
+### The Global and Mail Sentiment Table
 ```{r , include=FALSE}
 # The Global and Mail Sentiment Table
 table(publication_afinn(global_freq))
@@ -241,10 +240,8 @@ global_affin<- publication_afinn(global_freq)
 global_affin
 ```
 [need text here]
->>>>>>> a59561d03c306517f8374d207a3f24d4fa3c9919
 
 ## Graphing the Sentiments 
-
 We can graphically and numerically analyze the sentiments looking at a distribution of the afinn sentiment results. 
 ```{r, include= FALSE}
 #Function for creating ggplot for sentiments
@@ -258,36 +255,42 @@ ggplot(data = sentiment,
 }
 ```
 
+### USA Sentiment ggplot
 ```{r}
 #USA Sentiment ggplot
 ggplot_sentiment(usa_affin)
 ```
 From the sentiment ranges graph, we can see that there is notably more negative sentiment regarding climate change. In order to more closely examine this sentiment, we created a word cloud to discover which words were showing up the most often.
 
+### NYT Sentiment ggplot
 ```{r}
 #NYT Sentiment ggplot
 ggplot_sentiment(nyt_affin)
 ```
 From this, we see that the value skews lightly to the left, meaning there is more negative sentiment surrounding climate change. This supports and bolsters our findings from the bing and nrc tabled results. Although not necessary, we can also create a word cloud to take a look at which words exactly we see frequently being represented in these publications. This may not be as helpful since words such as climate and change are likely going to be the most represented; this does not help us as much, but could potentially be insightful for other words represented. 
 
+### Fox News Sentiment ggplot
 ```{r}
 #Fox News Sentiment ggplot
 ggplot_sentiment(fox_affin)
 ```
 Once again, we can see in the sentiment graph that there is an uneven distribution between negative and positive sentiment. The negative sentiment is nearly double the value of positive sentiment, indicating that the tone of these climate change articles in Fox News isn't hopeful.
 
+### The Australian Sentiment ggplot
 ```{r}
 #The Australian ggplot
 ggplot_sentiment(aus_affin)
 ```
 The Australian has a sentiment graph that seems to be much more balanced between negative and positive sentiment. Although there is still more negative, the range is much closer than the US publications we have examined. This could be noting that Australia has a better plan to tackle climate change, therefore they are less worried, than the United States.
 
+### The Guardian Sentiment ggplot
 ```{r}
 #The Guardian ggplot
 ggplot_sentiment(guard_affin)
 ```
 The sentiment graph clearly shows another negative sentiment towards climate change among publications. Slight positive, as well as slight negative, sentiments were the most occurring within the publication - indication yet another more balanced sentiment when compared to US publications.
 
+### The Global and Mail Sentiment ggplot
 ```{r}
 #The Global and Mail ggplot
 ggplot_sentiment(global_affin)
@@ -307,38 +310,47 @@ ggplot(publication[1:50,], aes(label = word, size = n)
 }
 ```
 
+### USA today Sentiment wordcloud
 ```{r}
 #Wordcloud for USA Today
 ggplot_wordcloud(usa_freq)
 ```
 As seen in the wordcloud, "climate" and "change" were the most used words, and were very similar in size - as they are typically used together. Other words that were used often were "global" and "warming" (also typically used together and of similar size on the wordcloud), "energy", "emissions", "usa", and a variety of different numbers.
 
+### NYT Sentiment wordcloud
 ```{r}
 #Wordcloud for NYT
 ggplot_wordcloud(nyt_freq)
 ```
 Sure enough, we see that the words climate and change are displayed as the largest, and thus more frequently represented words, in the sample of publications. We also see words such as emissions, carbon, scientists, and dioxide that likely are in reference to what exactly is driving global warming. We also see the word "trump" and "2020" represented in the word cloud, exhibiting how especially in the most recent election(s), climate change has become increasingly a political topic of interest. While the democratic party has championed passing legislation that will help to mitigate the rapid growth of climate change, the republican party, especially Trump, has voiced their overt disbelief in its very existence. Since The New York Times is a slightly more left leaning media outlet, it may be advantageous to observe a more right leaning outlet to compare the surrounding sentiments. Thus, to do this, we will next analyzing publications from Fox News Network. 
 
+### Fox News Sentiment wordcloud
 ```{r}
 #Wordcloud for Fox News
 ggplot_wordcloud(fox_freq)
 ```
 When looking at the three sentiment analyses, we find some insightful findings, particularly from the word cloud. From the bing, nrc, and afinn analysis, we find that the results are comparable to that of The New York Times. It skews more towards negative sentiments, but only very slightly. When we look at the word cloud, however, we find something extremely interesting; the words surrounding climate change from the Fox News Network publications are noticeably more political and much less scientific. Unlike The New York Times which had heavy representation of scientific jargon and language, Fox News includes predominantly the names of political figures such as President Barrack Obama, Tucker Carlson, Laura Ingraham, President Donald Trump, Vice President Joe Biden, Nancy Pelosi, etc. It even has the word "democrat" represented, while the word "republican" is not. This likely is due to the fact that as a right leaning media outlet, Fox News Network is skeptical and critical of the democratic party's concerns about climate change. One could argue that relative to The New York Times, Fox News Network speaks on the issue of climate change with much more politically charged implications and language, whereas The New York Times focuses predominantly on science and research. 
 
+### The Australian Sentiment wordcloud
 ```{r}
 #Wordcloud for The Australian
 ggplot_wordcloud(aus_freq)
 ```
 In the word cloud, "climate" and "change" clearly overshadow the other words, as expected. However, many words related to policy and legislation can be seen - such as "research", "document", "government" and "report". This denotes that articles in The Australia may be more legality based when compared to US publications regarding politics and science.
 
+### The Guardian Sentiment wordcloud
 ```{r}
 #Wordcloud for The Guardian
 ggplot_wordcloud(guard_freq)
 ```
 [need text here]
 
+### The Global and Mail Sentiment wordcloud
 ```{r}
 #Wordcloud for The Global and Mail
 ggplot_wordcloud(global_freq)
 ```
+[need text here]
+
+## Final Thoughts 
 [need text here]
